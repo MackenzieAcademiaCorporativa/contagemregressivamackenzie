@@ -62,7 +62,7 @@
   .hero{
     position:relative;
     width:100%;
-    max-width: min(760px, 50vh);
+    max-width: min(620px, 38vh);
     margin-top: 0;
     padding: 0 32px;
     perspective: 1400px;
@@ -73,7 +73,7 @@
 
   @media (max-width: 600px){
     .hero{
-      max-width: 500px;
+      max-width: 420px;
       margin-top: 8px;
     }
   }
@@ -110,36 +110,6 @@
     display:block;
     filter: drop-shadow(0 30px 50px rgba(0,0,0,0.55));
     will-change: transform;
-    position: relative;
-  }
-
-  /* camada de luz que reage ao mouse, simulando reflexo sobre as dobras do tecido */
-  .cloth-light{
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.4s ease-out;
-    background: radial-gradient(
-      circle 280px at 50% 50%,
-      rgba(255,255,255,1) 0%,
-      rgba(230,210,255,0.7) 30%,
-      rgba(160,110,255,0.25) 55%,
-      transparent 78%
-    );
-    mix-blend-mode: overlay;
-    /* usa a própria imagem como máscara, restringindo a luz à silhueta do pano */
-    -webkit-mask-image: var(--cloth-mask);
-    mask-image: var(--cloth-mask);
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-  }
-
-  .cloth-light.is-active{
-    opacity: 1;
   }
 
   /* ---------- TITLE ---------- */
@@ -158,32 +128,6 @@
     max-width: 1100px;
     text-shadow: 0 0 12px rgba(255,255,255,0.12);
     flex-shrink: 0;
-    position: relative;
-    cursor: default;
-  }
-
-  /* camada de brilho que segue o cursor, recortada na forma das letras */
-  .title-glow{
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: radial-gradient(
-      circle 160px at var(--gx, 50%) var(--gy, 50%),
-      rgba(255,255,255,1) 0%,
-      rgba(220,190,255,0.95) 40%,
-      transparent 75%
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    opacity: 0;
-    transition: opacity 0.35s ease-out;
-    filter: blur(6px) brightness(2.2);
-  }
-
-  .title:hover .title-glow{
-    opacity: 1;
   }
 
   .subtitle{
@@ -310,21 +254,6 @@
     width: 18px;
     height: 18px;
     flex-shrink: 0;
-  }
-
-  .footer-logo{
-    margin-top: 2.2vh;
-    height: clamp(28px, 4.6vh, 48px);
-    width: auto;
-    opacity: 1;
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 600px){
-    .footer-logo{
-      margin-top: 18px;
-      height: 34px;
-    }
   }
 
   .ended-state{
@@ -460,17 +389,13 @@
   <div class="hero">
     <div class="hero-glow"></div>
     <div class="cloth-reveal">
-      <div class="cloth-wrap" id="clothWrap" style="--cloth-mask: url('https://raw.githubusercontent.com/nathmenali/maccontagemregressiva/main/Pano%20surpresa%20transparente.png');">
+      <div class="cloth-wrap" id="clothWrap">
         <img src="https://raw.githubusercontent.com/nathmenali/maccontagemregressiva/main/Pano%20surpresa%20transparente.png" alt="Pano de seda suspenso, em espera">
-        <div class="cloth-light" id="clothLight"></div>
       </div>
     </div>
   </div>
 
-  <h1 class="title" id="titleEl">
-    Você vai querer ver isso.
-    <span class="title-glow" aria-hidden="true">Você vai querer ver isso.</span>
-  </h1>
+  <h1 class="title">Você vai querer ver isso.</h1>
   <p class="subtitle">Em breve.</p>
 
   <div class="countdown" id="countdown">
@@ -513,8 +438,6 @@
     </svg>
     05 de agosto de 2026 &nbsp;&bull;&nbsp; 14h
   </p>
-
-  <img src="https://raw.githubusercontent.com/nathmenali/maccontagemregressiva/main/MAC_H2.png" alt="Mackenzie Academia Corporativa" class="footer-logo">
 
 <script>
   // Data final: 05/08/2026, 14h (horário local do navegador)
@@ -566,14 +489,11 @@
 
   // ---------- Movimento do pano com o mouse ----------
   const clothWrap = document.getElementById('clothWrap');
-  const clothLight = document.getElementById('clothLight');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReducedMotion) {
     let targetRotX = 0, targetRotY = 0;
     let currentRotX = 0, currentRotY = 0;
-    let targetLightX = 50, targetLightY = 50;
-    let currentLightX = 50, currentLightY = 50;
 
     const maxTilt = 16; // graus de inclinação do pano
 
@@ -587,18 +507,11 @@
 
       targetRotY = nx * maxTilt;
       targetRotX = -ny * maxTilt;
-
-      // posição da luz acompanha o cursor diretamente (em %)
-      targetLightX = px * 100;
-      targetLightY = py * 100;
-
-      clothLight.classList.add('is-active');
     }
 
     function resetMove(){
       targetRotX = 0;
       targetRotY = 0;
-      clothLight.classList.remove('is-active');
     }
 
     clothWrap.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
@@ -614,33 +527,12 @@
       const ease = 0.12;
       currentRotX += (targetRotX - currentRotX) * ease;
       currentRotY += (targetRotY - currentRotY) * ease;
-      currentLightX += (targetLightX - currentLightX) * 0.18;
-      currentLightY += (targetLightY - currentLightY) * 0.18;
 
       clothWrap.style.transform = `rotateX(${currentRotX}deg) rotateY(${currentRotY}deg)`;
-      clothLight.style.background = `radial-gradient(
-        circle 280px at ${currentLightX}% ${currentLightY}%,
-        rgba(255,255,255,1) 0%,
-        rgba(230,210,255,0.7) 30%,
-        rgba(160,110,255,0.25) 55%,
-        transparent 78%
-      )`;
 
       requestAnimationFrame(animate);
     }
     requestAnimationFrame(animate);
-  }
-
-  // ---------- Glow local no título, seguindo o cursor ----------
-  const titleEl = document.getElementById('titleEl');
-  if (titleEl && !prefersReducedMotion) {
-    titleEl.addEventListener('mousemove', (e) => {
-      const rect = titleEl.getBoundingClientRect();
-      const gx = ((e.clientX - rect.left) / rect.width) * 100;
-      const gy = ((e.clientY - rect.top) / rect.height) * 100;
-      titleEl.style.setProperty('--gx', gx + '%');
-      titleEl.style.setProperty('--gy', gy + '%');
-    });
   }
 </script>
 
