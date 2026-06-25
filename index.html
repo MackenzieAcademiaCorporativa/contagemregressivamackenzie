@@ -62,7 +62,7 @@
   .hero{
     position:relative;
     width:100%;
-    max-width: min(760px, 50vh);
+    max-width: min(640px, 40vh);
     margin-top: 0;
     padding: 0 32px;
     perspective: 1400px;
@@ -331,9 +331,32 @@
     flex-shrink: 0;
   }
 
+  .verse-line{
+    margin-top: 1vh;
+    padding: 0 32px;
+    max-width: 580px;
+    text-align: center;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(8px, 1.05vh, 11px);
+    line-height: 1.4;
+    color: rgba(255,255,255,0.4);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px){
+    .verse-line{
+      margin-top: 12px;
+      font-size: 10px;
+      line-height: 1.5;
+      max-width: 320px;
+    }
+  }
+
   .footer-logo{
-    margin-top: 2.2vh;
-    height: clamp(36px, 5.8vh, 60px);
+    margin-top: 1.2vh;
+    height: clamp(30px, 4.6vh, 50px);
     width: auto;
     opacity: 1;
     flex-shrink: 0;
@@ -341,8 +364,8 @@
 
   @media (max-width: 600px){
     .footer-logo{
-      margin-top: 18px;
-      height: 42px;
+      margin-top: 14px;
+      height: 36px;
     }
   }
 
@@ -453,7 +476,7 @@
     .cloth-reveal{
       animation: reveal 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
-    .title, .highlight-line, .subtitle, .countdown, .progress-wrap, .date-line{
+    .title, .highlight-line, .subtitle, .countdown, .progress-wrap, .date-line, .verse-line, .footer-logo{
       animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
     .title{ animation-delay: 0.22s; }
@@ -462,6 +485,8 @@
     .countdown{ animation-delay: 0.48s; }
     .progress-wrap{ animation-delay: 0.58s; }
     .date-line{ animation-delay: 0.68s; }
+    .verse-line{ animation-delay: 0.76s; }
+    .footer-logo{ animation-delay: 0.84s; }
   }
 
   @keyframes reveal{
@@ -533,6 +558,10 @@
       <line x1="3" y1="10" x2="21" y2="10"></line>
     </svg>
     05 de agosto de 2026 &nbsp;&bull;&nbsp; 14h
+  </p>
+
+  <p class="verse-line">
+    "Disse também Deus: 'Que existam luzes no céu para separar o dia da noite. Elas servirão como marcadores do tempo, definindo as estações, os dias e os anos, e ficarão no alto para iluminar toda a Terra'. E assim aconteceu. Deus criou os dois grandes astros: o maior para governar o dia, e o menor para guiar a noite. Ele também espalhou as estrelas. Deus os posicionou no espaço para clarear o mundo, coordenar o ciclo de luz e sombra, e separar a claridade da escuridão. E Deus viu que era bom." &ndash; Gênesis 1:14-18
   </p>
 
   <img src="https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/MCK_horizontal_branca-01.png" alt="Mackenzie" class="footer-logo">
