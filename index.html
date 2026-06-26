@@ -726,6 +726,7 @@
   .comments-list{
     width: 100%;
     max-width: 600px;
+    margin-top: 24px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -1372,7 +1373,7 @@
 
   let sessaoAtual = null; // { drt, nome }
   let todosComentarios = [];
-  let limiteVisivel = 10; // quantos comentários-raiz mostrar por vez ("Ler mais")
+  let limiteVisivel = 6; // quantos comentários-raiz mostrar por vez ("Ler mais")
 
   const loginBox = document.getElementById('loginBox');
   const drtInput = document.getElementById('drtInput');
@@ -1565,7 +1566,7 @@
     const loadMoreBtn = document.getElementById('loadMoreBtn');
     if (loadMoreBtn) {
       loadMoreBtn.addEventListener('click', () => {
-        limiteVisivel += 10;
+        limiteVisivel += 6;
         renderListaComentarios();
       });
     }
