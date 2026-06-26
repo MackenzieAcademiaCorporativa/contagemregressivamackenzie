@@ -553,8 +553,16 @@
     letter-spacing: 0.04em;
   }
 
-  .login-box input{
+  .login-input-row{
     width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .login-box input{
+    flex: 1;
+    min-width: 0;
     background: rgba(255,255,255,0.06);
     border: 1px solid var(--card-border);
     border-radius: 10px;
@@ -572,20 +580,23 @@
   }
 
   .login-box button{
-    margin-top: 14px;
-    width: 100%;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
     background: linear-gradient(90deg, #9B5CFF, #C084FC);
     border: none;
-    border-radius: 10px;
-    padding: 12px 14px;
-    font-family: 'Manrope', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #1A0B33;
     cursor: pointer;
     transition: opacity 0.2s ease, transform 0.15s ease;
+  }
+
+  .login-box button svg{
+    width: 20px;
+    height: 20px;
   }
 
   .login-box button:hover{
@@ -593,7 +604,7 @@
   }
 
   .login-box button:active{
-    transform: scale(0.98);
+    transform: scale(0.94);
   }
 
   .login-box button:disabled{
@@ -891,9 +902,234 @@
     padding: 20px 0;
   }
 
+  /* ---------- TOOLTIP DE AVISO DE LOGIN ---------- */
+
+  .login-hint-tooltip{
+    position: fixed;
+    z-index: 100;
+    background: rgba(20, 6, 45, 0.98);
+    border: 1px solid var(--card-border);
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.45);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 6px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .login-hint-tooltip.is-visible{
+    opacity: 1;
+    transform: translate(-50%, -4px);
+  }
+
+  /* ---------- FORM DE RESPOSTA INLINE ---------- */
+
+  .reply-form-slot:empty{
+    display: none;
+  }
+
+  .reply-form{
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .reply-form textarea{
+    width: 100%;
+    min-height: 50px;
+    resize: vertical;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    color: var(--white);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .reply-form textarea:focus{
+    border-color: var(--glow);
+  }
+
+  .reply-form textarea::placeholder{
+    color: rgba(255,255,255,0.35);
+  }
+
+  .reply-form-footer{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .reply-form-cancel{
+    font-size: 12px;
+    color: var(--lilac-dim);
+    cursor: pointer;
+    text-decoration: underline;
+    align-self: center;
+    margin-right: auto;
+  }
+
+  .reply-form-submit{
+    background: linear-gradient(90deg, #9B5CFF, #C084FC);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #1A0B33;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+  }
+
+  .reply-form-submit:hover{
+    opacity: 0.92;
+  }
+
+  .reply-form-submit:disabled{
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  /* ---------- BOTÃO "LER MAIS" ---------- */
+
+  .load-more-btn{
+    margin-top: 8px;
+    align-self: center;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 10px 26px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    color: var(--white);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .load-more-btn:hover{
+    background: rgba(124, 58, 237, 0.3);
+  }
+
+  .load-more-btn:active{
+    transform: scale(0.97);
+  }
+
+  /* ---------- MODAL CUSTOMIZADO (substitui confirm()/alert()) ---------- */
+
+  .custom-modal-overlay{
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(8, 2, 20, 0.72);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .custom-modal-overlay.is-open{
+    display: flex;
+  }
+
+  .custom-modal{
+    width: 100%;
+    max-width: 360px;
+    background: rgba(30, 10, 60, 0.98);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 26px 24px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    animation: modalPopIn 0.18s ease-out;
+  }
+
+  @keyframes modalPopIn{
+    from{ opacity: 0; transform: scale(0.94); }
+    to{ opacity: 1; transform: scale(1); }
+  }
+
+  .custom-modal-message{
+    font-family: 'Manrope', sans-serif;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--white);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .custom-modal-actions{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .custom-modal-btn{
+    flex: 1;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.15s ease;
+  }
+
+  .custom-modal-btn:active{
+    transform: scale(0.96);
+  }
+
+  .custom-modal-btn.is-primary{
+    background: linear-gradient(90deg, #9B5CFF, #C084FC);
+    color: #1A0B33;
+  }
+
+  .custom-modal-btn.is-danger{
+    background: linear-gradient(90deg, #FF6B6B, #FF8A8A);
+    color: #2B0606;
+  }
+
+  .custom-modal-btn.is-secondary{
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--card-border);
+    color: var(--white);
+  }
+
+  .custom-modal-btn:hover{
+    opacity: 0.9;
+  }
+
 </style>
 </head>
 <body>
+
+  <div class="login-hint-tooltip" id="loginHintTooltip">Faça login com seu DRT para continuar</div>
+
+  <!-- Modal customizado: substitui confirm()/alert() nativos do navegador,
+       que sempre exibem o domínio do site no título e não podem ser personalizados. -->
+  <div class="custom-modal-overlay" id="customModalOverlay">
+    <div class="custom-modal">
+      <p class="custom-modal-message" id="customModalMessage"></p>
+      <div class="custom-modal-actions" id="customModalActions"></div>
+    </div>
+  </div>
 
   <div class="hero">
     <div class="hero-glow"></div>
@@ -961,8 +1197,15 @@
     <!-- Tela de login -->
     <div class="login-box" id="loginBox">
       <label for="drtInput">Digite seu DRT</label>
-      <input type="text" id="drtInput" inputmode="numeric" placeholder="Ex: 12345" autocomplete="off">
-      <button id="loginBtn">Entrar</button>
+      <div class="login-input-row">
+        <input type="text" id="drtInput" inputmode="numeric" placeholder="Ex: 12345" autocomplete="off">
+        <button id="loginBtn" aria-label="Entrar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
       <p class="login-error" id="loginError">DRT não encontrado. Verifique e tente novamente.</p>
     </div>
 
@@ -972,12 +1215,8 @@
       <span class="logout-link" id="logoutLink">sair</span>
     </p>
 
-    <!-- Formulário de novo comentário -->
+    <!-- Formulário de novo comentário (raiz) -->
     <form class="comment-form" id="commentForm">
-      <div class="replying-to" id="replyingTo">
-        <span id="replyingToText"></span>
-        <span class="replying-to-cancel" id="cancelReply">cancelar</span>
-      </div>
       <textarea id="commentText" placeholder="Escreva seu comentário..." maxlength="500"></textarea>
       <div class="comment-form-footer">
         <button type="submit" id="submitCommentBtn">Comentar</button>
@@ -1132,8 +1371,8 @@
   const STORAGE_KEY = 'mac_countdown_session';
 
   let sessaoAtual = null; // { drt, nome }
-  let respondendoA = null; // id do comentário-pai, ou null
   let todosComentarios = [];
+  let limiteVisivel = 10; // quantos comentários-raiz mostrar por vez ("Ler mais")
 
   const loginBox = document.getElementById('loginBox');
   const drtInput = document.getElementById('drtInput');
@@ -1146,9 +1385,6 @@
   const commentText = document.getElementById('commentText');
   const commentsList = document.getElementById('commentsList');
   const commentsLoading = document.getElementById('commentsLoading');
-  const replyingTo = document.getElementById('replyingTo');
-  const replyingToText = document.getElementById('replyingToText');
-  const cancelReply = document.getElementById('cancelReply');
 
   // ---------- Sessão (mantém login entre visitas, neste navegador) ----------
 
@@ -1193,7 +1429,6 @@
     if (!drt) return;
 
     loginBtn.disabled = true;
-    loginBtn.textContent = 'Verificando...';
     loginError.style.display = 'none';
 
     try {
@@ -1213,7 +1448,6 @@
       loginError.style.display = 'block';
     } finally {
       loginBtn.disabled = false;
-      loginBtn.textContent = 'Entrar';
     }
   }
 
@@ -1284,7 +1518,7 @@
             <span class="heart-icon">${jaCurtiu ? '❤️' : '🤍'}</span>
             <span class="like-count">${qtdCurtidas > 0 ? qtdCurtidas : ''}</span>
           </span>
-          <span class="comment-reply-btn" data-action="reply" data-id="${c.id}" data-name="${escapeHtml(c.nome)}">Responder</span>
+          ${!c.respostaPara ? `<span class="comment-reply-btn" data-action="reply" data-id="${c.id}" data-name="${escapeHtml(c.nome)}">Responder</span>` : ''}
           ${excluirHtml}
           <div class="comment-reactions">
             ${reacoesHtml}
@@ -1298,6 +1532,7 @@
             </div>
           </div>
         </div>
+        <div class="reply-form-slot" data-slot-for="${c.id}"></div>
         ${respostasHtml}
       </div>
     `;
@@ -1317,7 +1552,23 @@
     const arvore = montarArvore(JSON.parse(JSON.stringify(todosComentarios)));
     // mais recentes primeiro
     arvore.sort((a, b) => new Date(b.dataHora) - new Date(a.dataHora));
-    commentsList.innerHTML = arvore.map(renderComentario).join('');
+
+    const visiveis = arvore.slice(0, limiteVisivel);
+    let html = visiveis.map(renderComentario).join('');
+
+    if (arvore.length > limiteVisivel) {
+      html += `<button type="button" class="load-more-btn" id="loadMoreBtn">Ler mais</button>`;
+    }
+
+    commentsList.innerHTML = html;
+
+    const loadMoreBtn = document.getElementById('loadMoreBtn');
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        limiteVisivel += 10;
+        renderListaComentarios();
+      });
+    }
   }
 
   async function carregarComentarios(){
@@ -1333,13 +1584,7 @@
     }
   }
 
-  // ---------- Novo comentário / resposta ----------
-
-  cancelReply.addEventListener('click', () => {
-    respondendoA = null;
-    replyingTo.style.display = 'none';
-    commentText.placeholder = 'Escreva seu comentário...';
-  });
+  // ---------- Novo comentário (raiz) ----------
 
   commentForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -1351,6 +1596,15 @@
     const submitBtn = document.getElementById('submitCommentBtn');
     submitBtn.disabled = true;
 
+    const sucesso = await enviarComentario(texto, null);
+    if (sucesso) commentText.value = '';
+
+    submitBtn.disabled = false;
+  });
+
+  // Envia um comentário (raiz ou resposta) para o backend e atualiza a lista.
+  // Retorna true em caso de sucesso.
+  async function enviarComentario(texto, respostaParaId){
     try {
       const resp = await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
@@ -1359,7 +1613,7 @@
           drt: sessaoAtual.drt,
           nome: sessaoAtual.nome,
           comentario: texto,
-          respostaPara: respondendoA
+          respostaPara: respostaParaId
         })
       });
       const data = await resp.json();
@@ -1367,19 +1621,118 @@
       if (data.sucesso) {
         todosComentarios.push(data.comentario);
         renderListaComentarios();
-        commentText.value = '';
-        respondendoA = null;
-        replyingTo.style.display = 'none';
-        commentText.placeholder = 'Escreva seu comentário...';
+        return true;
       }
     } catch(e) {
-      alert('Não foi possível enviar o comentário. Tente novamente.');
-    } finally {
-      submitBtn.disabled = false;
+      mostrarAviso('Não foi possível enviar o comentário. Tente novamente.');
+    }
+    return false;
+  }
+
+  // ---------- Curtir / Responder / Reagir (delegação de eventos) ----------
+
+  // ---------- Tooltip de aviso "faça login primeiro" ----------
+
+  const loginHintTooltip = document.getElementById('loginHintTooltip');
+  let hintTimeoutId = null;
+
+  function mostrarDicaLogin(x, y){
+    loginHintTooltip.style.left = x + 'px';
+    loginHintTooltip.style.top = (y - 14) + 'px';
+    loginHintTooltip.classList.add('is-visible');
+
+    clearTimeout(hintTimeoutId);
+    hintTimeoutId = setTimeout(() => {
+      loginHintTooltip.classList.remove('is-visible');
+    }, 2200);
+  }
+
+  // ---------- Modal customizado (substitui confirm()/alert() nativos) ----------
+  // O navegador sempre mostra o domínio do site no título de confirm()/alert(),
+  // e isso não pode ser alterado via código. Por isso usamos um modal próprio.
+
+  const customModalOverlay = document.getElementById('customModalOverlay');
+  const customModalMessage = document.getElementById('customModalMessage');
+  const customModalActions = document.getElementById('customModalActions');
+
+  function fecharModalCustomizado(){
+    customModalOverlay.classList.remove('is-open');
+    customModalActions.innerHTML = '';
+  }
+
+  // Substitui confirm(): retorna uma Promise<boolean>.
+  function mostrarConfirmacao(mensagem, { textoConfirmar = 'Excluir', textoCancelar = 'Cancelar', tipoConfirmar = 'is-danger' } = {}){
+    return new Promise((resolve) => {
+      customModalMessage.textContent = mensagem;
+      customModalActions.innerHTML = `
+        <button type="button" class="custom-modal-btn is-secondary" id="modalCancelBtn">${escapeHtml(textoCancelar)}</button>
+        <button type="button" class="custom-modal-btn ${tipoConfirmar}" id="modalConfirmBtn">${escapeHtml(textoConfirmar)}</button>
+      `;
+      customModalOverlay.classList.add('is-open');
+
+      document.getElementById('modalCancelBtn').addEventListener('click', () => {
+        fecharModalCustomizado();
+        resolve(false);
+      });
+      document.getElementById('modalConfirmBtn').addEventListener('click', () => {
+        fecharModalCustomizado();
+        resolve(true);
+      });
+    });
+  }
+
+  // Substitui alert(): só um botão "OK".
+  function mostrarAviso(mensagem){
+    return new Promise((resolve) => {
+      customModalMessage.textContent = mensagem;
+      customModalActions.innerHTML = `
+        <button type="button" class="custom-modal-btn is-primary" id="modalOkBtn">OK</button>
+      `;
+      customModalOverlay.classList.add('is-open');
+
+      document.getElementById('modalOkBtn').addEventListener('click', () => {
+        fecharModalCustomizado();
+        resolve();
+      });
+    });
+  }
+
+  // fecha o modal clicando fora da caixa
+  customModalOverlay.addEventListener('click', (e) => {
+    if (e.target === customModalOverlay) {
+      fecharModalCustomizado();
     }
   });
 
-  // ---------- Curtir / Responder / Reagir (delegação de eventos) ----------
+  // ---------- Form de resposta inline ----------
+
+  function abrirFormResposta(comentarioId, nomeAutor){
+    // fecha qualquer outro form de resposta já aberto
+    document.querySelectorAll('.reply-form-slot').forEach(slot => slot.innerHTML = '');
+
+    const slot = document.querySelector(`.reply-form-slot[data-slot-for="${comentarioId}"]`);
+    if (!slot) return;
+
+    slot.innerHTML = `
+      <div class="reply-form">
+        <textarea placeholder="Respondendo a ${escapeHtml(nomeAutor)}..." maxlength="500"></textarea>
+        <div class="reply-form-footer">
+          <span class="reply-form-cancel" data-action="cancel-reply">cancelar</span>
+          <button type="button" class="reply-form-submit" data-action="submit-reply" data-id="${comentarioId}">Responder</button>
+        </div>
+      </div>
+    `;
+
+    const textarea = slot.querySelector('textarea');
+    textarea.focus();
+  }
+
+  function fecharFormResposta(comentarioId){
+    const slot = document.querySelector(`.reply-form-slot[data-slot-for="${comentarioId}"]`);
+    if (slot) slot.innerHTML = '';
+  }
+
+  // ---------- Delegação de eventos da lista de comentários ----------
 
   commentsList.addEventListener('click', async (e) => {
     const target = e.target.closest('[data-action]');
@@ -1390,15 +1743,10 @@
 
     if (action === 'reply') {
       if (!sessaoAtual) {
-        loginBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        mostrarDicaLogin(e.clientX, e.clientY);
         return;
       }
-      respondendoA = id;
-      replyingToText.textContent = `Respondendo a ${target.dataset.name}`;
-      replyingTo.style.display = 'flex';
-      commentText.placeholder = 'Escreva sua resposta...';
-      commentText.focus();
-      commentForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      abrirFormResposta(id, target.dataset.name);
       return;
     }
 
@@ -1413,7 +1761,7 @@
 
     if (action === 'like') {
       if (!sessaoAtual) {
-        loginBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        mostrarDicaLogin(e.clientX, e.clientY);
         return;
       }
       // atualização otimista na interface
@@ -1436,7 +1784,7 @@
 
     if (action === 'react') {
       if (!sessaoAtual) {
-        loginBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        mostrarDicaLogin(e.clientX, e.clientY);
         return;
       }
       const emoji = target.dataset.emoji;
@@ -1460,7 +1808,7 @@
     if (action === 'delete') {
       if (!sessaoAtual) return;
 
-      const confirmado = confirm('Tem certeza que deseja excluir este comentário? Se houver uma resposta, ela também será excluída.');
+      const confirmado = await mostrarConfirmacao('Tem certeza que deseja excluir este comentário? Se houver uma resposta, ela também será excluída.');
       if (!confirmado) return;
 
       try {
@@ -1475,11 +1823,30 @@
           todosComentarios = todosComentarios.filter(c => !idsExcluidos.includes(c.id));
           renderListaComentarios();
         } else {
-          alert(data.erro || 'Não foi possível excluir o comentário.');
+          mostrarAviso(data.erro || 'Não foi possível excluir o comentário.');
         }
       } catch(e) {
-        alert('Erro ao excluir o comentário. Tente novamente.');
+        mostrarAviso('Erro ao excluir o comentário. Tente novamente.');
       }
+      return;
+    }
+
+    if (action === 'cancel-reply') {
+      fecharFormResposta(target.closest('.reply-form-slot').dataset.slotFor);
+      return;
+    }
+
+    if (action === 'submit-reply') {
+      const slot = target.closest('.reply-form-slot');
+      const textarea = slot.querySelector('textarea');
+      const texto = textarea.value.trim();
+      if (!texto) return;
+
+      target.disabled = true;
+      const sucesso = await enviarComentario(texto, id);
+      // se deu sucesso, renderListaComentarios() já recriou o DOM (form some naturalmente).
+      // se falhou, reabilita o botão para tentar de novo.
+      if (!sucesso) target.disabled = false;
       return;
     }
   });
