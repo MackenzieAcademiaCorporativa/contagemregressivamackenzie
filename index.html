@@ -791,6 +791,19 @@
     text-decoration: underline;
   }
 
+  .comment-delete-btn{
+    font-size: 12px;
+    color: #FF8A8A;
+    cursor: pointer;
+    text-decoration: underline;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+  }
+
+  .comment-delete-btn:hover{
+    opacity: 1;
+  }
+
   .comment-reactions{
     display: flex;
     gap: 6px;
@@ -929,23 +942,6 @@
     </div>
   </div>
 
-  <div class="divider"></div>
-  <p class="date-line">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="3" y="4" width="18" height="18" rx="3"></rect>
-      <line x1="16" y1="2" x2="16" y2="6"></line>
-      <line x1="8" y1="2" x2="8" y2="6"></line>
-      <line x1="3" y1="10" x2="21" y2="10"></line>
-    </svg>
-    05 de agosto de 2026 &nbsp;&bull;&nbsp; 14h
-  </p>
-
-  <p class="verse-line">
-    "Disse também Deus: 'Que existam luzes no céu para separar o dia da noite. Elas servirão como marcadores do tempo, definindo as estações, os dias e os anos, e ficarão no alto para iluminar toda a Terra'. E assim aconteceu. Deus criou os dois grandes astros: o maior para governar o dia, e o menor para guiar a noite. Ele também espalhou as estrelas. Deus os posicionou no espaço para clarear o mundo, coordenar o ciclo de luz e sombra, e separar a claridade da escuridão. E Deus viu que era bom." &ndash; Gênesis 1:14-18
-  </p>
-
-  <img src="https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/MCK_horizontal_branca-01.png" alt="Mackenzie" class="footer-logo">
-
   <!-- ================= SEÇÃO DE COMENTÁRIOS ================= -->
   <div class="comments-section">
     <div class="comments-divider-top"></div>
@@ -983,6 +979,24 @@
       <p class="comments-loading" id="commentsLoading">Carregando comentários...</p>
     </div>
   </div>
+
+  <!-- ================= RODAPÉ: data, versículo, logo ================= -->
+  <div class="divider" style="margin-top: 6vh;"></div>
+  <p class="date-line">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="3"></rect>
+      <line x1="16" y1="2" x2="16" y2="6"></line>
+      <line x1="8" y1="2" x2="8" y2="6"></line>
+      <line x1="3" y1="10" x2="21" y2="10"></line>
+    </svg>
+    05 de agosto de 2026 &nbsp;&bull;&nbsp; 14h
+  </p>
+
+  <p class="verse-line">
+    "Disse também Deus: 'Que existam luzes no céu para separar o dia da noite. Elas servirão como marcadores do tempo, definindo as estações, os dias e os anos, e ficarão no alto para iluminar toda a Terra'. E assim aconteceu. Deus criou os dois grandes astros: o maior para governar o dia, e o menor para guiar a noite. Ele também espalhou as estrelas. Deus os posicionou no espaço para clarear o mundo, coordenar o ciclo de luz e sombra, e separar a claridade da escuridão. E Deus viu que era bom." &ndash; Gênesis 1:14-18
+  </p>
+
+  <img src="https://raw.githubusercontent.com/MackenzieAcademiaCorporativa/contagemregressivamackenzie/main/MCK_horizontal_branca-01.png" alt="Mackenzie" class="footer-logo">
 
 <script>
   // Data final: 05/08/2026, 14h (horário local do navegador)
@@ -1137,8 +1151,8 @@
 
   // ---------- Sessão (mantém login entre visitas, neste navegador) ----------
 
-  function salvarSessao(drt, nome){
-    sessaoAtual = { drt, nome };
+  function salvarSessao(drt, nome, isAdmin){
+    sessaoAtual = { drt, nome, isAdmin: !!isAdmin };
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(sessaoAtual)); } catch(e) {}
   }
 
@@ -1186,8 +1200,9 @@
       const data = await resp.json();
 
       if (data.sucesso) {
-        salvarSessao(data.drt, data.nome);
+        salvarSessao(data.drt, data.nome, data.isAdmin);
         aplicarEstadoLogin();
+        renderListaComentarios(); // re-renderiza para mostrar botões de excluir/curtir corretos
       } else {
         loginError.textContent = 'DRT não encontrado. Verifique e tente novamente.';
         loginError.style.display = 'block';
@@ -1210,6 +1225,7 @@
     limparSessao();
     drtInput.value = '';
     aplicarEstadoLogin();
+    renderListaComentarios();
   });
 
   // ---------- Carregar e renderizar comentários ----------
@@ -1241,6 +1257,11 @@
     const jaCurtiu = sessaoAtual && c.curtidas.includes(sessaoAtual.drt);
     const qtdCurtidas = c.curtidas.length;
 
+    const podeExcluir = sessaoAtual && (sessaoAtual.drt === String(c.drt) || sessaoAtual.isAdmin);
+    const excluirHtml = podeExcluir
+      ? `<span class="comment-delete-btn" data-action="delete" data-id="${c.id}">Excluir</span>`
+      : '';
+
     const reacoesHtml = Object.keys(c.reacoes || {}).length
       ? `<div class="reaction-pills">${Object.entries(c.reacoes).map(([emoji, qtd]) =>
           `<span class="reaction-pill">${emoji} ${qtd}</span>`).join('')}</div>`
@@ -1263,6 +1284,7 @@
             <span class="like-count">${qtdCurtidas > 0 ? qtdCurtidas : ''}</span>
           </span>
           <span class="comment-reply-btn" data-action="reply" data-id="${c.id}" data-name="${escapeHtml(c.nome)}">Responder</span>
+          ${excluirHtml}
           <div class="comment-reactions">
             ${reacoesHtml}
             <span class="reaction-trigger" data-action="toggle-picker" data-id="${c.id}">😀</span>
@@ -1431,6 +1453,32 @@
           body: JSON.stringify({ action: 'reagir', id, emoji })
         });
       } catch(e) {}
+      return;
+    }
+
+    if (action === 'delete') {
+      if (!sessaoAtual) return;
+
+      const confirmado = confirm('Tem certeza que deseja excluir este comentário? Se houver uma resposta, ela também será excluída.');
+      if (!confirmado) return;
+
+      try {
+        const resp = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'excluirComentario', id, drt: sessaoAtual.drt })
+        });
+        const data = await resp.json();
+
+        if (data.sucesso) {
+          const idsExcluidos = data.idsExcluidos || [id];
+          todosComentarios = todosComentarios.filter(c => !idsExcluidos.includes(c.id));
+          renderListaComentarios();
+        } else {
+          alert(data.erro || 'Não foi possível excluir o comentário.');
+        }
+      } catch(e) {
+        alert('Erro ao excluir o comentário. Tente novamente.');
+      }
       return;
     }
   });
