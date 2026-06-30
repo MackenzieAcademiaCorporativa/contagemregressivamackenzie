@@ -1117,9 +1117,369 @@
     opacity: 0.9;
   }
 
+  /* ================= PAINEL DE ACESSIBILIDADE ================= */
+
+  .accessibility-fab{
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 300;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #9B5CFF, #C084FC);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1A0B33;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(124,58,237,0.5);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .accessibility-fab:hover{
+    transform: scale(1.06);
+  }
+
+  .accessibility-fab svg{
+    width: 26px;
+    height: 26px;
+  }
+
+  .accessibility-fab:focus-visible,
+  .accessibility-panel button:focus-visible,
+  .accessibility-option:focus-within{
+    outline: 2px solid #FFD23F;
+    outline-offset: 2px;
+  }
+
+  .accessibility-panel{
+    position: fixed;
+    bottom: 86px;
+    right: 22px;
+    z-index: 300;
+    width: 280px;
+    max-width: calc(100vw - 44px);
+    background: rgba(24, 8, 52, 0.98);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .accessibility-panel.is-open{
+    display: flex;
+  }
+
+  .accessibility-panel-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .accessibility-panel-header button{
+    background: none;
+    border: none;
+    color: var(--lilac-dim);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .accessibility-option{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 4px;
+    cursor: pointer;
+    border-radius: 8px;
+  }
+
+  .accessibility-option:hover{
+    background: rgba(255,255,255,0.04);
+  }
+
+  .accessibility-option > span:first-child{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .accessibility-option strong{
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--white);
+  }
+
+  .accessibility-option small{
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    color: var(--lilac-dim);
+    line-height: 1.3;
+  }
+
+  .accessibility-option input[type="checkbox"]{
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .accessibility-switch{
+    flex-shrink: 0;
+    width: 38px;
+    height: 22px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid var(--card-border);
+    position: relative;
+    transition: background 0.2s ease;
+  }
+
+  .accessibility-switch::before{
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--white);
+    transition: transform 0.2s ease;
+  }
+
+  .accessibility-option input:checked + .accessibility-switch{
+    background: linear-gradient(90deg, #9B5CFF, #C084FC);
+  }
+
+  .accessibility-option input:checked + .accessibility-switch::before{
+    transform: translateX(16px);
+  }
+
+  /* ---------- MODO: ALTO CONTRASTE ---------- */
+  /* Só aplica quando a pessoa ativa o toggle — não muda nada por padrão. */
+
+  body.a11y-contrast{
+    background: #000000 !important;
+  }
+
+  body.a11y-contrast .unit-card,
+  body.a11y-contrast .login-box,
+  body.a11y-contrast .comment-item,
+  body.a11y-contrast .custom-modal,
+  body.a11y-contrast .accessibility-panel{
+    background: #000000 !important;
+    border: 2px solid #FFFFFF !important;
+  }
+
+  body.a11y-contrast .progress-track{
+    background: #333333 !important;
+    border-color: #FFFFFF !important;
+  }
+
+  body.a11y-contrast .progress-fill{
+    background: #FFFF00 !important;
+  }
+
+  body.a11y-contrast .title,
+  body.a11y-contrast .unit-number,
+  body.a11y-contrast .comment-author,
+  body.a11y-contrast .comment-text,
+  body.a11y-contrast .date-line,
+  body.a11y-contrast .login-welcome,
+  body.a11y-contrast .comments-title{
+    color: #FFFFFF !important;
+    text-shadow: none !important;
+  }
+
+  body.a11y-contrast .subtitle,
+  body.a11y-contrast .unit-label,
+  body.a11y-contrast .comments-subtitle,
+  body.a11y-contrast .comment-time,
+  body.a11y-contrast .verse-line,
+  body.a11y-contrast .login-box label,
+  body.a11y-contrast .accessibility-option small{
+    color: #FFFF00 !important;
+  }
+
+  body.a11y-contrast .highlight-line{
+    color: #00FFFF !important;
+  }
+
+  body.a11y-contrast a,
+  body.a11y-contrast .comment-reply-btn,
+  body.a11y-contrast .logout-link{
+    color: #00FFFF !important;
+  }
+
+  /* ---------- MODO: TEXTO AUMENTADO ---------- */
+
+  body.a11y-large-text .title{
+    font-size: clamp(26px, 5.2vh, 58px) !important;
+  }
+
+  body.a11y-large-text .subtitle,
+  body.a11y-large-text .highlight-line{
+    font-size: 1.25em !important;
+  }
+
+  body.a11y-large-text .unit-number{
+    font-size: clamp(34px, 8.4vh, 98px) !important;
+  }
+
+  body.a11y-large-text .unit-label,
+  body.a11y-large-text .date-line,
+  body.a11y-large-text .comments-title,
+  body.a11y-large-text .comments-subtitle,
+  body.a11y-large-text .login-box label,
+  body.a11y-large-text .comment-author,
+  body.a11y-large-text .comment-text,
+  body.a11y-large-text .comment-time,
+  body.a11y-large-text .comment-reply-btn,
+  body.a11y-large-text .comment-delete-btn,
+  body.a11y-large-text .login-welcome,
+  body.a11y-large-text .verse-line,
+  body.a11y-large-text .accessibility-option strong,
+  body.a11y-large-text .accessibility-option small{
+    font-size: 1.2em !important;
+  }
+
+  body.a11y-large-text .login-box input,
+  body.a11y-large-text .comment-form textarea,
+  body.a11y-large-text .reply-form textarea{
+    font-size: 1.15em !important;
+  }
+
+  /* ---------- MODO: DALTÔNICO ---------- */
+  /* Reforça com ícones/texto o que hoje depende só de cor. */
+
+  body.a11y-colorblind .comment-like .heart-icon::after{
+    content: "";
+  }
+
+  body.a11y-colorblind .comment-like.is-liked::after{
+    content: " (curtido)";
+    font-size: 10px;
+    color: var(--lilac-dim);
+  }
+
+  body.a11y-colorblind .comment-delete-btn::before{
+    content: "🗑 ";
+  }
+
+  body.a11y-colorblind .comment-reply-btn::before{
+    content: "↩ ";
+  }
+
+  body.a11y-colorblind .highlight-line::before{
+    content: "★ ";
+  }
+
+  body.a11y-colorblind .highlight-line::after{
+    content: " ★";
+  }
+
+  body.a11y-colorblind .progress-fill::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.25) 0px,
+      rgba(255,255,255,0.25) 3px,
+      transparent 3px,
+      transparent 7px
+    );
+  }
+
+  @media (max-width: 600px){
+    .accessibility-fab{
+      width: 46px;
+      height: 46px;
+      bottom: 16px;
+      right: 16px;
+    }
+    .accessibility-fab svg{
+      width: 22px;
+      height: 22px;
+    }
+    .accessibility-panel{
+      bottom: 72px;
+      right: 16px;
+      width: calc(100vw - 32px);
+    }
+  }
+
 </style>
 </head>
 <body>
+
+  <!-- ================= PAINEL DE ACESSIBILIDADE ================= -->
+  <button type="button" id="accessibilityToggle" class="accessibility-fab" aria-label="Abrir opções de acessibilidade" aria-expanded="false" aria-controls="accessibilityPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="4" r="2"></circle>
+      <path d="M19 8l-7 2-7-2"></path>
+      <path d="M12 10v4"></path>
+      <path d="M9 21l3-7 3 7"></path>
+      <path d="M7 13l5 1 5-1"></path>
+    </svg>
+  </button>
+
+  <div class="accessibility-panel" id="accessibilityPanel" role="dialog" aria-label="Opções de acessibilidade" aria-hidden="true">
+    <div class="accessibility-panel-header">
+      <span>Acessibilidade</span>
+      <button type="button" id="accessibilityClose" aria-label="Fechar opções de acessibilidade">✕</button>
+    </div>
+
+    <label class="accessibility-option">
+      <span>
+        <strong>Leitor de tela aprimorado</strong>
+        <small>Melhora textos alternativos e navegação por teclado</small>
+      </span>
+      <input type="checkbox" id="toggleScreenReader">
+      <span class="accessibility-switch"></span>
+    </label>
+
+    <label class="accessibility-option">
+      <span>
+        <strong>Alto contraste</strong>
+        <small>Aumenta o contraste de cores da página</small>
+      </span>
+      <input type="checkbox" id="toggleContrast">
+      <span class="accessibility-switch"></span>
+    </label>
+
+    <label class="accessibility-option">
+      <span>
+        <strong>Aumentar texto</strong>
+        <small>Deixa as fontes maiores em toda a página</small>
+      </span>
+      <input type="checkbox" id="toggleLargeText">
+      <span class="accessibility-switch"></span>
+    </label>
+
+    <label class="accessibility-option">
+      <span>
+        <strong>Modo daltônico</strong>
+        <small>Adiciona ícones e padrões além das cores</small>
+      </span>
+      <input type="checkbox" id="toggleColorblind">
+      <span class="accessibility-switch"></span>
+    </label>
+  </div>
 
   <div class="login-hint-tooltip" id="loginHintTooltip">Faça login com seu DRT para continuar</div>
 
@@ -1858,6 +2218,98 @@
       document.querySelectorAll('.reaction-picker.is-open').forEach(p => p.classList.remove('is-open'));
     }
   });
+
+  // ================= PAINEL DE ACESSIBILIDADE =================
+  // Todos os modos começam DESLIGADOS por padrão. Nada muda visualmente
+  // até a pessoa abrir o painel e ativar algo manualmente.
+
+  const A11Y_STORAGE_KEY = 'mac_countdown_a11y_prefs';
+
+  const a11yToggleBtn = document.getElementById('accessibilityToggle');
+  const a11yPanel = document.getElementById('accessibilityPanel');
+  const a11yCloseBtn = document.getElementById('accessibilityClose');
+
+  const a11yCheckboxes = {
+    screenReader: document.getElementById('toggleScreenReader'),
+    contrast: document.getElementById('toggleContrast'),
+    largeText: document.getElementById('toggleLargeText'),
+    colorblind: document.getElementById('toggleColorblind')
+  };
+
+  const a11yBodyClass = {
+    screenReader: null, // não altera classe visual, só comportamento (aria/teclado)
+    contrast: 'a11y-contrast',
+    largeText: 'a11y-large-text',
+    colorblind: 'a11y-colorblind'
+  };
+
+  function carregarPrefsA11y(){
+    try {
+      const raw = localStorage.getItem(A11Y_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch(e) {
+      return {};
+    }
+  }
+
+  function salvarPrefsA11y(prefs){
+    try { localStorage.setItem(A11Y_STORAGE_KEY, JSON.stringify(prefs)); } catch(e) {}
+  }
+
+  function aplicarPrefsA11y(prefs){
+    Object.keys(a11yCheckboxes).forEach((chave) => {
+      const ligado = !!prefs[chave];
+      a11yCheckboxes[chave].checked = ligado;
+
+      const classe = a11yBodyClass[chave];
+      if (classe) {
+        document.body.classList.toggle(classe, ligado);
+      }
+    });
+
+    // modo leitor de tela: ativa/desativa melhorias de aria sem mudar nada visual
+    document.body.classList.toggle('a11y-screenreader-mode', !!prefs.screenReader);
+  }
+
+  function togglePainel(forcarEstado){
+    const abrir = forcarEstado !== undefined ? forcarEstado : !a11yPanel.classList.contains('is-open');
+    a11yPanel.classList.toggle('is-open', abrir);
+    a11yPanel.setAttribute('aria-hidden', abrir ? 'false' : 'true');
+    a11yToggleBtn.setAttribute('aria-expanded', abrir ? 'true' : 'false');
+    if (abrir) {
+      a11yCheckboxes.screenReader.focus();
+    }
+  }
+
+  a11yToggleBtn.addEventListener('click', () => togglePainel());
+  a11yCloseBtn.addEventListener('click', () => togglePainel(false));
+
+  // fecha o painel com a tecla Esc, e ao clicar fora dele
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && a11yPanel.classList.contains('is-open')) {
+      togglePainel(false);
+      a11yToggleBtn.focus();
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (a11yPanel.classList.contains('is-open') &&
+        !a11yPanel.contains(e.target) &&
+        !a11yToggleBtn.contains(e.target)) {
+      togglePainel(false);
+    }
+  });
+
+  Object.keys(a11yCheckboxes).forEach((chave) => {
+    a11yCheckboxes[chave].addEventListener('change', () => {
+      const prefs = carregarPrefsA11y();
+      prefs[chave] = a11yCheckboxes[chave].checked;
+      salvarPrefsA11y(prefs);
+      aplicarPrefsA11y(prefs);
+    });
+  });
+
+  // aplica preferências salvas de visitas anteriores (se houver)
+  aplicarPrefsA11y(carregarPrefsA11y());
 
   // ---------- Inicialização ----------
 
